@@ -1,4 +1,4 @@
-export const db = "Tech Overflow";
+export const db = "TechOverflow";
 export const questionCollection = "questions";
 export const answerCollection = "answers";
 export const commentCollection = "comments";

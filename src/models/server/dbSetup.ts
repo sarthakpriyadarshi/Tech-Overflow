@@ -4,7 +4,7 @@ import { databases } from "@/models/server/config";
 import createAnswerCollection from "@/models/server/answer.collection";
 import createCommentCollection from "@/models/server/comment.collection";
 import createQuestionCollection from "@/models/server/question.collection";
-import createStorageCollection from "@/models/server/storage.collection";
+import getOrCreateStorage from "@/models/server/storageSetup";
 import createVoteCollection from "@/models/server/vote.collection";
 
 export default async function getOrCreateDB() {
@@ -20,7 +20,7 @@ export default async function getOrCreateDB() {
         createAnswerCollection(),
         createCommentCollection(),
         createQuestionCollection(),
-        createStorageCollection(),
+        getOrCreateStorage(),
         createVoteCollection(),
       ]);
       console.log("Collections created");
