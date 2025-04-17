@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Special Gothic Expanded One";
+  src: url("/fonts/SpecialGothicExpandedOne.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
@@ -130,7 +137,7 @@ input:-webkit-autofill:active {
   outline-offset: 2px;
 }
 
-* {
-  font-family: --font-comfortaa, sans-serif;
-  font-weight: 700;
+h1 {
+  font-family: "Special Gothic Expanded One", sans-serif;
+  font-weight: 600;
 }

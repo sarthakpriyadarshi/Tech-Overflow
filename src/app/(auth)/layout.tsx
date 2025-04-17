@@ -1,16 +1,24 @@
-import type React from "react";
-import ClientLayout from "./ClientLayout";
+"use client";
 
-export const metadata = {
-  title: "Login or Register | Tech Overflow",
-  description:
-    "Tech Overflow is a platform for developers to ask and answer questions.",
+import { useAuthStore } from "@/store/Auth";
+import { useRouter } from "next/navigation";
+import React from "react";
+
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  const { session } = useAuthStore();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (session) {
+      router.push("/");
+    }
+  }, [session, router]);
+
+  if (session) {
+    return null;
+  }
+
+  return <div className="relative">{children}</div>;
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return <ClientLayout>{children}</ClientLayout>;
-}
+export default Layout;

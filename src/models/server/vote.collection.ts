@@ -28,7 +28,7 @@ export default async function createVoteCollection() {
       ["upvoted", "downvoted"],
       true
     ),
-    databases.createStringAttribute(db, voteCollection, "userById", 50, true),
+    databases.createStringAttribute(db, voteCollection, "votedById", 50, true),
   ]);
   console.log("Vote collection attributes created successfully.");
 }
