@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import Link from "next/link";
+import Footer from "./components/Footer";
 
 export default function Index() {
   return (
@@ -73,6 +74,7 @@ export default function Index() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

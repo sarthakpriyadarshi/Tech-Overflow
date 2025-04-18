@@ -10,6 +10,7 @@ const montserrat = Montserrat({
 });
 import { cn } from "@/lib/utils";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 export const metadata: Metadata = {
   title: "Tech Overflow",
   description: "Your one-stop solution for all tech queries",
@@ -26,11 +27,12 @@ export default function RootLayout({
         className={cn(
           inter.className,
           montserrat.className,
-          "dark:bg-black dark:text-white"
+          "dark:bg-black dark:text-white max-h-fit"
         )}
       >
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
