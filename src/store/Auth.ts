@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { persist } from "zustand/middleware";
 
-import { AppwriteException, ID, Models } from "appwrite";
+import { AppwriteException, ID, Models, OAuthProvider } from "appwrite";
 import { account } from "@/models/client/config";
 
 export interface UserPrefs {
@@ -15,6 +15,11 @@ interface IAuthStore {
   user: Models.User<UserPrefs> | null;
   hydrated: boolean;
   setHydrated(): void;
+  setSessionData(data: {
+    session: Models.Session | null;
+    user: Models.User<UserPrefs> | null;
+    jwt: string | null;
+  }): void;
   verifySession(): Promise<void>;
   login(
     email: string,
@@ -26,6 +31,7 @@ interface IAuthStore {
     name: string
   ): Promise<{ success: boolean; error?: AppwriteException | null }>;
   logout(): Promise<void>;
+  oauthLogin(provider: OAuthProvider): Promise<void>;
 }
 
 export const useAuthStore = create<IAuthStore>()(
@@ -39,6 +45,9 @@ export const useAuthStore = create<IAuthStore>()(
         set({
           hydrated: true,
         });
+      },
+      setSessionData(data) {
+        set(data);
       },
       async verifySession() {
         try {
@@ -89,6 +98,23 @@ export const useAuthStore = create<IAuthStore>()(
           set({ session: null, user: null, jwt: null });
         } catch (error) {
           console.error("Error logging out:", error);
+        }
+      },
+      async oauthLogin(provider: OAuthProvider) {
+        try {
+          const redirectUrl = await account.createOAuth2Token(
+            provider,
+            `${window.location.origin}/callback`,
+            `${window.location.origin}/login`
+          );
+          if (typeof redirectUrl === "string") {
+            window.location.href = redirectUrl;
+          } else {
+            throw new Error("OAuth provider did not return a redirect URL.");
+          }
+        } catch (err) {
+          console.error("OAuth login error:", err);
+          throw new Error("OAuth login failed.");
         }
       },
     })),

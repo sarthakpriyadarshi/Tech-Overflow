@@ -47,7 +47,7 @@ const SearchPage = () => {
               Find Your Answer
             </h1>
             <p className="text-gray-400 text-base md:text-lg px-4">
-              Search through thousands of questions from our tech community
+              Search through the questions devs
             </p>
           </div>
 

@@ -2,16 +2,18 @@
 
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { IconBrandGithub } from "@tabler/icons-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/Auth";
 import Link from "next/link";
+import { OAuthProvider } from "appwrite";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { login } = useAuthStore();
+  const { login, oauthLogin } = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,13 +37,26 @@ export default function Login() {
     setIsLoading(false);
   };
 
+  const handleOAuthLogin = async (provider: OAuthProvider) => {
+    setIsLoading(true);
+    setError("");
+    try {
+      await oauthLogin(provider);
+    } catch (err) {
+      setError("OAuth login failed.");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4 relative">
       {/* Radial Gradients */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-500/30 rounded-full blur-3xl z-0"></div>
       <div className="absolute bottom-20 right-10 w-72 h-72 bg-emerald-500/20 rounded-full blur-3xl z-0"></div>
 
-      <div className="w-full max-w-md space-y-8 p-8 bg-white/5 rounded-xl backdrop-blur-lg border border-emerald-500/20 z-10">
+      <div className="relative z-10 w-full max-w-md space-y-8 p-8 bg-white/5 rounded-xl backdrop-blur-lg border border-emerald-500/20">
         <div className="text-center">
           <h2 className="font-['Special_Gothic_Expanded_One'] text-3xl bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
             Welcome Back
@@ -52,7 +67,7 @@ export default function Login() {
         </div>
 
         {error && (
-          <p className="text-center text-red-500 font-montserrat text-sm">
+          <p className="text-sm text-red-500 dark:text-red-400 text-center -mt-4">
             {error}
           </p>
         )}
@@ -65,7 +80,7 @@ export default function Login() {
             <Input
               name="email"
               type="email"
-              placeholder="you@example.com"
+              placeholder="Email"
               className="w-full bg-white/5 border-emerald-500/20 focus:border-emerald-500 text-white"
               disabled={isLoading}
             />
@@ -101,6 +116,16 @@ export default function Login() {
           >
             {isLoading ? "Logging in..." : "Sign In"}
           </Button>
+
+          <div className="flex flex-col gap-4 pt-4">
+            <Button
+              onClick={() => handleOAuthLogin(OAuthProvider.Github)}
+              className="flex items-center justify-center gap-2 w-full py-2 rounded-md bg-white text-black dark:bg-zinc-900 dark:text-white font-medium hover:opacity-90"
+            >
+              <IconBrandGithub className="h-5 w-5" />
+              Sign in with GitHub
+            </Button>
+          </div>
         </form>
 
         <p className="text-center text-gray-400 font-montserrat">

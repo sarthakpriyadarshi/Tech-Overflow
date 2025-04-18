@@ -125,7 +125,7 @@ export default function Header() {
       {/* Mobile Menu Panel */}
       <div
         className={cn(
-          "fixed right-0 top-0 h-screen w-64 bg-black/50 backdrop-blur-3xl border border-black md:hidden transform transition-transform duration-200 ease-in-out",
+          "fixed right-0 top-0 h-screen w-64 bg-black border border-black md:hidden transform transition-transform duration-200 ease-in-out",
           mobileMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >

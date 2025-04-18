@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
-import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
+import { IconBrandGithub } from "@tabler/icons-react";
 import { useAuthStore } from "@/store/Auth";
 import Link from "next/link";
+import { OAuthProvider } from "appwrite";
 
 export default function Signup() {
-  const { login, createAccount } = useAuthStore();
+  const { login, createAccount, oauthLogin } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -48,6 +49,21 @@ export default function Signup() {
     setIsLoading(false);
   };
 
+  const handleOAuth = async (provider: OAuthProvider) => {
+    setIsLoading(true);
+    setError("");
+
+    try {
+      // Use the oauthLogin method to initiate the OAuth flow
+      await oauthLogin(provider);
+    } catch (err) {
+      setError("OAuth login failed.");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4 relative">
       {/* Radial Gradients */}
@@ -82,7 +98,7 @@ export default function Signup() {
               id="username"
               name="username"
               type="text"
-              placeholder="johndoe"
+              placeholder="Name"
               className="w-full bg-white/5 border-emerald-500/20 focus:border-emerald-500 text-white"
             />
           </div>
@@ -98,7 +114,7 @@ export default function Signup() {
               id="email"
               name="email"
               type="email"
-              placeholder="you@example.com"
+              placeholder="Email"
               className="w-full bg-white/5 border-emerald-500/20 focus:border-emerald-500 text-white"
             />
           </div>
@@ -137,22 +153,15 @@ export default function Signup() {
           </Button>
 
           <div className="flex flex-col gap-4 pt-4">
-            <button
-              className="flex items-center justify-center gap-2 w-full py-2 rounded-md bg-white text-black dark:bg-zinc-900 dark:text-white font-medium hover:opacity-90"
-              type="button"
-              disabled={isLoading}
-            >
-              <IconBrandGoogle className="h-5 w-5" />
-              Sign up with Google
-            </button>
-            <button
-              className="flex items-center justify-center gap-2 w-full py-2 rounded-md bg-white text-black dark:bg-zinc-900 dark:text-white font-medium hover:opacity-90"
-              type="button"
-              disabled={isLoading}
-            >
-              <IconBrandGithub className="h-5 w-5" />
-              Sign up with GitHub
-            </button>
+            <div className="flex flex-col gap-4 pt-4">
+              <Button
+                onClick={() => handleOAuth(OAuthProvider.Github)}
+                className="flex items-center justify-center gap-2 w-full py-2 rounded-md bg-white text-black dark:bg-zinc-900 dark:text-white font-medium hover:opacity-90"
+              >
+                <IconBrandGithub className="h-5 w-5" />
+                Sign Up with GitHub
+              </Button>
+            </div>
           </div>
         </form>
 
