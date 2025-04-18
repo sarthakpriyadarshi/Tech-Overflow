@@ -2,12 +2,12 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Home, Search, MessageSquare, User, Menu } from "lucide-react";
+import { Home, Search, MessageSquare, User, Menu, LogOut } from "lucide-react";
 import { useAuthStore } from "@/store/Auth";
 import slugify from "@/utils/slugify";
 
 export default function Header() {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
 
   return (
     <header className="fixed w-full top-0 z-50 bg-black/50 backdrop-blur-lg border-b border-emerald-500/20">
@@ -48,13 +48,23 @@ export default function Header() {
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             {user ? (
-              <Link
-                href={`/users/${user.$id}/${slugify(user.name)}`}
-                className="flex items-center space-x-2 text-gray-300 hover:text-emerald-400 transition-colors font-montserrat"
-              >
-                <User className="w-5 h-5" />
-                <span>Profile</span>
-              </Link>
+              <>
+                <Link
+                  href={`/users/${user.$id}/${slugify(user.name)}`}
+                  className="flex items-center space-x-2 text-gray-300 hover:text-emerald-400 transition-colors font-montserrat"
+                >
+                  <User className="w-5 h-5" />
+                  <span>Profile</span>
+                </Link>
+                <Button
+                  variant="ghost"
+                  className="flex items-center space-x-2 text-gray-300 hover:text-emerald-400 transition-colors font-montserrat"
+                  onClick={() => logout()}
+                >
+                  <LogOut className="w-5 h-5" />
+                  <span>Logout</span>
+                </Button>
+              </>
             ) : (
               <>
                 <Link href="/login">
