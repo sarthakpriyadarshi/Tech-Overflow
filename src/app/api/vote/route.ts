@@ -1,11 +1,10 @@
-import { databases } from "@/models/client/config";
+import { databases, users } from "@/models/server/config";
 import {
   answerCollection,
   db,
   questionCollection,
   voteCollection,
 } from "@/models/name";
-import { users } from "@/models/server/config";
 import { UserPrefs } from "@/store/Auth";
 import { Query } from "appwrite";
 import { NextRequest, NextResponse } from "next/server";
@@ -79,7 +78,6 @@ export async function POST(request: NextRequest) {
         });
       }
     }
-
     const [upvotes, downvotes] = await Promise.all([
       databases.listDocuments(db, voteCollection, [
         Query.equal("type", type),

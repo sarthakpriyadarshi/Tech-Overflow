@@ -31,8 +31,12 @@ const DeleteQuestion = ({
       await databases.deleteDocument(db, questionCollection, questionId);
       toast.success("Question deleted successfully");
       router.push("/questions");
-    } catch (error: any) {
-      toast.error(error?.message || "Something went wrong");
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "message" in error) {
+        toast.error((error as { message: string }).message);
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   };
 

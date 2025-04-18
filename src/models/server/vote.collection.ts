@@ -1,14 +1,14 @@
-import { Permission } from "node-appwrite";
+import { Permission, Role } from "node-appwrite";
 import { db, voteCollection } from "@/models/name";
 import { databases } from "@/models/server/config";
 
 export default async function createVoteCollection() {
   await databases.createCollection(db, voteCollection, voteCollection, [
-    Permission.read("users"),
-    Permission.read("any"),
-    Permission.create("users"),
-    Permission.update("users"),
-    Permission.delete("users"),
+    Permission.read(Role.users()),
+    Permission.read(Role.any()),
+    Permission.create(Role.users()),
+    Permission.update(Role.users()),
+    Permission.delete(Role.users()),
   ]);
   console.log("Vote collection created successfully.");
 

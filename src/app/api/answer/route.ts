@@ -8,17 +8,11 @@ export async function POST(request: NextRequest) {
   try {
     const { questionId, answer, authorId } = await request.json();
     console.log(questionId, answer, authorId);
-    const response = await databases.createDocument(
-      db,
-      answerCollection,
-      ID.unique(),
-      {
-        content: answer,
-        authodId: authorId,
-        questionId: questionId,
-      }
-    );
-    console.log(response);
+    await databases.createDocument(db, answerCollection, ID.unique(), {
+      content: answer,
+      authorId: authorId,
+      questionId: questionId,
+    });
     // Increase author reputation
     const prefs = users.getPrefs<UserPrefs>(authorId);
     await users.updatePrefs<UserPrefs>(authorId, {
@@ -72,7 +66,7 @@ export async function DELETE(request: NextRequest) {
         data: response,
       },
       {
-        status: 205,
+        status: 200,
       }
     );
   } catch (error) {

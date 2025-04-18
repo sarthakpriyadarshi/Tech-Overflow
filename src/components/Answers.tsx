@@ -28,7 +28,6 @@ const Answers = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newAnswer || !user) return;
-
     try {
       const response = await fetch("/api/answer", {
         method: "POST",
@@ -85,7 +84,7 @@ const Answers = ({
   };
 
   return (
-    <div className="space-y-6 p-2">
+    <div className="space-y-6 max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
       <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
         {answers.total} Answers
       </h2>
@@ -150,6 +149,7 @@ const Answers = ({
         </GradientCard>
       ))}
       <div className="border-t border-emerald-500/20 pt-6">
+        {/* Add onSubmit only to the form element, not individual buttons */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
             Your Answer
@@ -158,6 +158,7 @@ const Answers = ({
             value={newAnswer}
             onChange={(value) => setNewAnswer(() => value || "")}
           />
+          {/* Explicitly add type="submit" to the submit button */}
           <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700">
             Post Your Answer
           </Button>
