@@ -127,7 +127,6 @@ const AskPage = ({ question }: { question?: Question }) => {
 
   const createQuestion = async () => {
     try {
-      console.log(user.$id, "userId");
       let attachmentId;
       if (attachment) {
         const fileId = ID.unique();
@@ -138,23 +137,32 @@ const AskPage = ({ question }: { question?: Question }) => {
       const payload = {
         title: title.trim(),
         content: content.trim(),
-        authorId: user.$id,
+        authorId: user?.$id,
         tags,
         ...(attachmentId && { attachmentId }),
       };
-
+      const authorId = user?.$id || "anonymous";
+      console.log("Creating question with payload:", authorId);
       // Ensure your collection allows "create" for role:any in the Appwrite console
-      return databases.createDocument(
+      const response = await databases.createDocument(
         db,
         questionCollection,
         ID.unique(),
-        payload,
+        {
+          title: payload.title,
+          content: payload.content,
+          authorId: payload.authorId,
+          tags: Array.from(payload.tags),
+          attachmentId: attachmentId,
+        },
         [
-          Permission.read(Role.any()), // public read
-          Permission.update(Role.user(user.$id)), // only owner can update
-          Permission.delete(Role.user(user.$id)), // only owner can delete
+          Permission.read(Role.any()),
+          Permission.update(Role.user(authorId)),
+          Permission.delete(Role.user(authorId)),
         ]
       );
+      console.log("Question created:", response);
+      return response;
     } catch (e: any) {
       if (e.code === 401)
         toast.error(

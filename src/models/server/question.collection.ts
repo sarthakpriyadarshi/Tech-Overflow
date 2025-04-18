@@ -1,15 +1,15 @@
-import { IndexType, Permission } from "node-appwrite";
+import { IndexType, Permission, Role } from "node-appwrite";
 
 import { db, questionCollection } from "@/models/name";
 import { databases } from "@/models/server/config";
 
 export default async function createQuestionCollection() {
   await databases.createCollection(db, questionCollection, questionCollection, [
-    Permission.read("any"),
-    Permission.read("users"),
-    Permission.create("users"),
-    Permission.update("users"),
-    Permission.delete("users"),
+    Permission.read(Role.any()),
+    Permission.read(Role.users()),
+    Permission.create(Role.users()),
+    Permission.update(Role.users()),
+    Permission.delete(Role.users()),
   ]);
   console.log("Question collection created successfully.");
 

@@ -1,4 +1,4 @@
-import { Permission } from "node-appwrite";
+import { Permission, Role } from "node-appwrite";
 import { questionAttachmentBucket } from "@/models/name";
 import { storage } from "@/models/server/config";
 
@@ -25,11 +25,11 @@ export default async function getOrCreateStorage() {
           questionAttachmentBucket,
           questionAttachmentBucket,
           [
-            Permission.create("users"),
-            Permission.read("any"),
-            Permission.read("users"),
-            Permission.update("users"),
-            Permission.delete("users"),
+            Permission.read(Role.any()),
+            Permission.read(Role.users()),
+            Permission.create(Role.users()),
+            Permission.update(Role.users()),
+            Permission.delete(Role.users()),
           ],
           false,
           undefined,

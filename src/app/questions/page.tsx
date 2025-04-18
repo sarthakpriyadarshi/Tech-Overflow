@@ -104,23 +104,24 @@ const Page = async ({
               </Button>
             </Link>
           </div>
-
-          {/* Search Section */}
           <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-8 backdrop-blur-lg">
-            <Search />
-          </div>
+            {/* Search Section */}
+            <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-8 backdrop-blur-lg">
+              <Search />
+            </div>
 
-          {/* Questions List */}
-          <div className="space-y-6">
-            <div className="space-y-4">
-              {enrichedQuestions.map((ques) => (
-                <div
-                  key={ques.$id}
-                  className="transform transition-all duration-300 hover:scale-[1.02]"
-                >
-                  <QuestionCard ques={ques} />
-                </div>
-              ))}
+            {/* Questions List */}
+            <div className="space-y-6 mt-8">
+              <div className="space-y-4">
+                {enrichedQuestions.map((ques) => (
+                  <div
+                    key={ques.$id}
+                    className="transform transition-all duration-300"
+                  >
+                    <QuestionCard ques={ques} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 

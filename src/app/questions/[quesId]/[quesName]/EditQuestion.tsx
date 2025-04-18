@@ -2,9 +2,8 @@
 
 import { useAuthStore } from "@/store/Auth";
 import slugify from "@/utils/slugify";
-import { IconEdit } from "@tabler/icons-react";
+import { PenLine } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 
 const EditQuestion = ({
   questionId,
@@ -20,9 +19,10 @@ const EditQuestion = ({
   return user?.$id === authorId ? (
     <Link
       href={`/questions/${questionId}/${slugify(questionTitle)}/edit`}
-      className="flex h-10 w-10 items-center justify-center rounded-full border p-1 duration-200 hover:bg-white/10"
+      className="flex h-10 w-10 items-center justify-center rounded-full border border-emerald-500/40 p-1 text-emerald-400 duration-200 hover:bg-emerald-500/10 transition-all transform hover:scale-110"
+      title="Edit question"
     >
-      <IconEdit className="h-4 w-4" />
+      <PenLine className="h-4 w-4" />
     </Link>
   ) : null;
 };

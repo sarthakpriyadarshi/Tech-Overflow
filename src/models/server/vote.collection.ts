@@ -4,8 +4,8 @@ import { databases } from "@/models/server/config";
 
 export default async function createVoteCollection() {
   await databases.createCollection(db, voteCollection, voteCollection, [
-    Permission.read("any"),
     Permission.read("users"),
+    Permission.read("any"),
     Permission.create("users"),
     Permission.update("users"),
     Permission.delete("users"),
