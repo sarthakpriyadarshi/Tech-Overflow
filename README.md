@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![Logo](./assets/banner.svg)
 
-## Getting Started
+# Tech Overflow
 
-First, run the development server:
+This is a stackoverflow clone built with Next.js and Appwrite. It uses the Appwrite Node.js SDK to interact with the Appwrite API. The UI is built using Tailwind CSS and the magicui library and the database is stored in Appwrite.
+
+## Demo
+
+Please visit the link for demo:
+
+[Tech Overflow](techoverflow.cyberol.codes)
+
+## Deployment
+
+To deploy this project use vercel
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+or add this repository for deployment to vercel
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Run Locally
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Clone the project
 
-## Learn More
+```bash
+  git clone https://github.com/sarthakpriyadarshi/Tech-Overflow.git
+```
 
-To learn more about Next.js, take a look at the following resources:
+Go to the project directory
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+  cd Tech-Overflow
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Install dependencies
 
-## Deploy on Vercel
+```bash
+  npm install
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Start the server
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+  npm run start
+```
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`NEXT_PUBLIC_APPWRITE_HOST_URL`
+
+`NEXT_PUBLIC_APPWRITE_PROJECT_ID`
+
+`APPWRITE_API_KEY`
+
+## Acknowledgements
+
+- [Hitesh Chaudhary - Appwrite](https://www.youtube.com/watch?v=zLWif1pFYJg)
