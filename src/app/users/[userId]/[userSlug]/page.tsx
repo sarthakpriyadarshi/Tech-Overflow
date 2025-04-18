@@ -10,7 +10,7 @@ import { Trophy, MessageSquare, MessageCircle } from "lucide-react";
 const Page = async ({
   params,
 }: {
-  params: { userId: string; userSlug: string };
+  params: Promise<{ userId: string; userSlug: string }>;
 }) => {
   // 1) await the entire params promise
   const { userId } = await params;

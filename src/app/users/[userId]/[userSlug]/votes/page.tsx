@@ -18,10 +18,13 @@ const Page = async ({
   params,
   searchParams,
 }: {
-  params: { userId: string; userSlug: string };
-  searchParams: { page?: string; voteStatus?: "upvoted" | "downvoted" };
+  params: Promise<{ userId: string; userSlug: string }>;
+  searchParams: Promise<{
+    page?: string;
+    voteStatus?: "upvoted" | "downvoted";
+  }>;
 }) => {
-  searchParams.page ||= "1";
+  (await searchParams).page ||= "1";
 
   const VoteFilter = ({
     isActive,
@@ -44,14 +47,22 @@ const Page = async ({
     </Link>
   );
   const query = [
-    Query.equal("votedById", params.userId),
+    Query.equal("votedById", (await params).userId),
     Query.orderDesc("$createdAt"),
-    Query.offset((+searchParams.page - 1) * 25),
+    Query.offset(
+      (((await searchParams)?.page
+        ? +((await searchParams)?.page as string)
+        : 1) -
+        1) *
+        25
+    ),
     Query.limit(25),
   ];
 
-  if (searchParams.voteStatus)
-    query.push(Query.equal("voteStatus", searchParams.voteStatus));
+  const voteStatus = (await searchParams).voteStatus;
+  if (voteStatus !== undefined) {
+    query.push(Query.equal("voteStatus", voteStatus));
+  }
 
   const votes = await databases.listDocuments(db, voteCollection, query);
 
@@ -99,20 +110,26 @@ const Page = async ({
         <p className="text-lg text-emerald-500/80">{votes.total} votes</p>
         <nav className="flex gap-2">
           <VoteFilter
-            href={`/users/${params.userId}/${params.userSlug}/votes`}
-            isActive={!searchParams.voteStatus}
+            href={`/users/${(await params).userId}/${
+              (await params).userSlug
+            }/votes`}
+            isActive={!(await searchParams).voteStatus}
           >
             All
           </VoteFilter>
           <VoteFilter
-            href={`/users/${params.userId}/${params.userSlug}/votes?voteStatus=upvoted`}
-            isActive={searchParams.voteStatus === "upvoted"}
+            href={`/users/${(await params).userId}/${
+              (await params).userSlug
+            }/votes?voteStatus=upvoted`}
+            isActive={(await searchParams).voteStatus === "upvoted"}
           >
             <ThumbsUp className="h-4 w-4" /> Upvotes
           </VoteFilter>
           <VoteFilter
-            href={`/users/${params.userId}/${params.userSlug}/votes?voteStatus=downvoted`}
-            isActive={searchParams.voteStatus === "downvoted"}
+            href={`/users/${(await params).userId}/${
+              (await params).userSlug
+            }/votes?voteStatus=downvoted`}
+            isActive={(await searchParams).voteStatus === "downvoted"}
           >
             <ThumbsDown className="h-4 w-4" /> Downvotes
           </VoteFilter>

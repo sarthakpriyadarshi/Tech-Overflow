@@ -12,6 +12,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { GradientCard } from "./ui/gradient-card";
 import { Trash } from "lucide-react";
+import { toast } from "sonner";
 import Image from "next/image";
 
 const Answers = ({
@@ -56,8 +57,14 @@ const Answers = ({
           ...prev.documents,
         ],
       }));
-    } catch (error: any) {
-      window.alert(error?.message || "Error creating answer");
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "message" in error) {
+        toast.error(
+          (error as { message?: string }).message || "Error creating answer"
+        );
+      } else {
+        toast.error("Error creating answer");
+      }
     }
   };
 
@@ -73,13 +80,14 @@ const Answers = ({
       const data = await response.json();
 
       if (!response.ok) throw data;
-
-      setAnswers((prev) => ({
-        total: prev.total - 1,
-        documents: prev.documents.filter((answer) => answer.$id !== answerId),
-      }));
-    } catch (error: any) {
-      window.alert(error?.message || "Error deleting answer");
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "message" in error) {
+        toast.error(
+          (error as { message?: string }).message || "Error deleting answer"
+        );
+      } else {
+        toast.error("Error deleting answer");
+      }
     }
   };
 

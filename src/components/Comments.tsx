@@ -12,6 +12,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { Trash } from "lucide-react";
 import { Textarea } from "./ui/textarea";
+import { toast } from "sonner";
 
 const Comments = ({
   comments: _comments,
@@ -50,8 +51,14 @@ const Comments = ({
         total: prev.total + 1,
         documents: [{ ...response, author: user }, ...prev.documents],
       }));
-    } catch (error: any) {
-      window.alert(error?.message || "Error creating comment");
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "message" in error) {
+        toast.error(
+          (error as { message?: string }).message || "Error creating comment"
+        );
+      } else {
+        toast.error("Error creating comment");
+      }
     }
   };
 
@@ -65,8 +72,14 @@ const Comments = ({
           (comment) => comment.$id !== commentId
         ),
       }));
-    } catch (error: any) {
-      window.alert(error?.message || "Error deleting comment");
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "message" in error) {
+        toast.error(
+          (error as { message?: string }).message || "Error deleting comment"
+        );
+      } else {
+        toast.error("Error deleting comment");
+      }
     }
   };
 

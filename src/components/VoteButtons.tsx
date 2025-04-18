@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
 
 const VoteButtons = ({
   type,
@@ -67,8 +68,14 @@ const VoteButtons = ({
 
       setVoteResult(() => data.data.voteResult);
       setVotedDocument(() => data.data.document);
-    } catch (error: any) {
-      window.alert(error?.message || "Something went wrong");
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "message" in error) {
+        toast.error(
+          (error as { message?: string }).message || "Something went wrong"
+        );
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   };
 
@@ -94,8 +101,14 @@ const VoteButtons = ({
 
       setVoteResult(() => data.data.voteResult);
       setVotedDocument(() => data.data.document);
-    } catch (error: any) {
-      window.alert(error?.message || "Something went wrong");
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "message" in error) {
+        toast.error(
+          (error as { message?: string }).message || "Something went wrong"
+        );
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   };
 

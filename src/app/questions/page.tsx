@@ -18,23 +18,21 @@ import { PlusCircle, Sparkles } from "lucide-react";
 const Page = async ({
   searchParams,
 }: {
-  searchParams: { page?: string; tag?: string; search?: string };
+  searchParams: Promise<{ page?: string; tag?: string; search?: string }>;
 }) => {
-  const page = parseInt(searchParams.page || "1", 10);
+  const { page, tag, search } = await searchParams;
+  const pageNumber = parseInt(page || "1", 10);
 
   const queries = [
     Query.orderDesc("$createdAt"),
-    Query.offset((page - 1) * 25),
+    Query.offset((pageNumber - 1) * 25),
     Query.limit(25),
   ];
 
-  if (searchParams.tag) queries.push(Query.equal("tags", searchParams.tag));
-  if (searchParams.search)
+  if (tag) queries.push(Query.equal("tags", tag));
+  if (search)
     queries.push(
-      Query.or([
-        Query.search("title", searchParams.search),
-        Query.search("content", searchParams.search),
-      ])
+      Query.or([Query.search("title", search), Query.search("content", search)])
     );
 
   const questions = await databases.listDocuments(

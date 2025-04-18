@@ -14,15 +14,16 @@ const Page = async ({
   params,
   searchParams,
 }: {
-  params: { userId: string; userSlug: string };
-  searchParams: { page?: string };
+  params: Promise<{ userId: string; userSlug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }) => {
-  searchParams.page ||= "1";
+  const pageStr = (await searchParams)?.page;
+  const page = pageStr ? parseInt(pageStr, 10) : 1;
 
   const queries = [
-    Query.equal("authorId", params.userId),
+    Query.equal("authorId", (await params).userId),
     Query.orderDesc("$createdAt"),
-    Query.offset((+searchParams.page - 1) * 25),
+    Query.offset((page - 1) * 25),
     Query.limit(25),
   ];
 
@@ -43,21 +44,27 @@ const Page = async ({
   return (
     <div className="space-y-6">
       <GradientCard hover={false} className="flex items-center justify-between">
+        <p className="text-lg text-emerald-500/80 font-semibold">
+          You answered total of:{" "}
+        </p>
         <p className="text-lg text-emerald-500/80">{answers.total} answers</p>
       </GradientCard>
 
       <div className="space-y-4">
         {answers.documents.map((ans) => (
           <GradientCard key={ans.$id} className="space-y-4">
+            <p className="text-lg text-emerald-500/80 font-semibold">
+              Question:
+            </p>
             <div className="max-h-40 overflow-auto rounded-lg bg-black/20 p-6">
-              <MarkdownPreview source={ans.content} />
+              <MarkdownPreview source={ans.question.title} />
             </div>
             <Link
               href={`/questions/${ans.questionId}/${slugify(
                 ans.question.title
               )}`}
             >
-              <Button className="group relative overflow-hidden border-emerald-500/20 text-emerald-400 hover:border-emerald-500/40 hover:text-emerald-300">
+              <Button className="group relative overflow-hidden border-emerald-500/20 text-white font-bold hover:border-emerald-500/40 hover:text-emerald-300">
                 <MessageSquare className="mr-2 h-4 w-4" />
                 <span>View Question</span>
                 <div className="absolute inset-0 -z-10 bg-gradient-to-r from-emerald-500/10 to-emerald-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />

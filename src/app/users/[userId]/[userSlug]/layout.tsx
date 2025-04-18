@@ -14,9 +14,10 @@ const Layout = async ({
   params,
 }: {
   children: React.ReactNode;
-  params: { userId: string; userSlug: string };
+  params: Promise<{ userId: string; userSlug: string }>;
 }) => {
-  const user = await users.get<UserPrefs>(params.userId);
+  const { userId } = await params;
+  const user = await users.get<UserPrefs>(userId);
   const userAvatar = await avatars.getInitials(user.name, 200, 200);
 
   return (

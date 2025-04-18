@@ -19,6 +19,7 @@ const QuestionCard = ({ ques }: { ques: Models.Document }) => {
     }
   }, [ref]);
 
+  console.log("Current Height", height);
   return (
     <GradientCard ref={ref} className="flex flex-col gap-4 sm:flex-row">
       <div className="relative shrink-0 text-sm sm:text-right space-y-1">

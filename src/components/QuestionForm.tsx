@@ -131,8 +131,10 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
       const response = question ? await update() : await create();
 
       router.push(`/questions/${response.$id}/${slugify(formData.title)}`);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setError(() => error.message);
+      setError("An unexpected error occurred");
+      console.error(error);
     }
 
     setLoading(() => false);

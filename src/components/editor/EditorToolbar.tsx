@@ -1,24 +1,13 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Bold,
-  Italic,
-  Link,
-  Image,
-  ListOrdered,
-  List,
-  Quote,
-} from "lucide-react";
+import { Bold, Italic, Link, ListOrdered, List, Quote } from "lucide-react";
 
 interface EditorToolbarProps {
   onAction: (action: string) => void;
   onImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const EditorToolbar: React.FC<EditorToolbarProps> = ({
-  onAction,
-  onImageUpload,
-}) => {
+const EditorToolbar: React.FC<EditorToolbarProps> = ({ onAction }) => {
   // Create handlers that prevent the default action and call the passed in function
   const handleButtonClick = (action: string, e: React.MouseEvent) => {
     e.preventDefault(); // Prevent form submission
