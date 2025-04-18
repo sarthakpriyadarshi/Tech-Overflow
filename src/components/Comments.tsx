@@ -6,7 +6,7 @@ import { useAuthStore } from "@/store/Auth";
 import { cn } from "@/lib/utils";
 import convertDateToRelativeTime from "@/utils/relativeTime";
 import slugify from "@/utils/slugify";
-import { ID, Models } from "appwrite";
+import { ID, type Models } from "appwrite";
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
@@ -89,7 +89,7 @@ const Comments = ({
         <React.Fragment key={comment.$id}>
           <div className="border-t border-emerald-500/20 pt-2" />
           <div className="flex gap-2 group">
-            <p className="text-sm text-gray-300">
+            <p className="text-xs md:text-sm text-gray-300">
               {comment.content} <span className="text-gray-500">–</span>{" "}
               <Link
                 href={`/users/${comment.authorId}/${slugify(
@@ -99,7 +99,7 @@ const Comments = ({
               >
                 {comment.author.name}
               </Link>{" "}
-              <span className="text-gray-500">
+              <span className="text-gray-500 text-xs">
                 {convertDateToRelativeTime(new Date(comment.$createdAt))}
               </span>
             </p>
@@ -108,23 +108,26 @@ const Comments = ({
                 onClick={() => deleteComment(comment.$id)}
                 className="opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-400"
               >
-                <Trash className="h-4 w-4" />
+                <Trash className="h-3 w-3 md:h-4 md:w-4" />
               </button>
             )}
           </div>
         </React.Fragment>
       ))}
       <div className="border-t border-emerald-500/20 pt-2" />
-      <form onSubmit={handleSubmit} className="flex items-center gap-2">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col sm:flex-row items-start sm:items-center gap-2"
+      >
         <Textarea
-          className="min-h-[2.5rem] bg-black/20 border-emerald-500/20 resize-none"
+          className="min-h-[2.5rem] bg-black/20 border-emerald-500/20 resize-none text-sm w-full"
           placeholder="Add a comment..."
           value={newComment}
           onChange={(e) => setNewComment(() => e.target.value)}
         />
         <Button
           type="submit"
-          className="bg-emerald-600 hover:bg-emerald-700 shrink-0"
+          className="bg-emerald-600 hover:bg-emerald-700 shrink-0 w-full sm:w-auto mt-2 sm:mt-0"
         >
           Add Comment
         </Button>

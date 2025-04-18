@@ -13,12 +13,11 @@ import {
 } from "@/models/name";
 import { databases, users } from "@/models/server/config";
 import { storage } from "@/models/client/config";
-import { UserPrefs } from "@/store/Auth";
+import type { UserPrefs } from "@/store/Auth";
 import convertDateToRelativeTime from "@/utils/relativeTime";
 import slugify from "@/utils/slugify";
 import Link from "next/link";
 import { Query } from "node-appwrite";
-import React from "react";
 import DeleteQuestion from "./DeleteQuestion";
 import EditQuestion from "./EditQuestion";
 import { Button } from "@/components/ui/button";
@@ -137,13 +136,13 @@ const Page = async ({
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-600/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative max-w-4xl mx-auto px-4 md:px-6 lg:px-8 pb-20 pt-36">
+      <div className="relative max-w-4xl mx-auto px-4 md:px-6 lg:px-8 pb-20 pt-24 md:pt-36">
         <div className="flex flex-col md:flex-row gap-4 items-start">
           <div className="w-full">
-            <h1 className="mb-1 text-3xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+            <h1 className="mb-1 text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
               {question.title}
             </h1>
-            <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+            <div className="flex flex-wrap gap-2 md:gap-4 text-xs md:text-sm text-gray-400">
               <span className="flex items-center">
                 Asked {convertDateToRelativeTime(new Date(question.$createdAt))}
               </span>
@@ -156,8 +155,11 @@ const Page = async ({
               </span>
             </div>
           </div>
-          <Link href="/questions/ask" className="ml-auto inline-block shrink-0">
-            <Button className="shadow-2xl">
+          <Link
+            href="/questions/ask"
+            className="mt-4 md:mt-0 md:ml-auto inline-block shrink-0"
+          >
+            <Button className="shadow-2xl w-full md:w-auto">
               <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
                 Ask a question
               </span>
@@ -165,8 +167,8 @@ const Page = async ({
           </Link>
         </div>
         <hr className="my-4 border-emerald-500/20" />
-        <div className="flex gap-4">
-          <div className="flex shrink-0 flex-col items-center gap-4">
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex md:flex-col flex-row justify-center md:justify-start items-center md:items-center gap-4 md:shrink-0">
             <VoteButtons
               type="question"
               id={question.$id}
@@ -174,20 +176,22 @@ const Page = async ({
               upvotes={upvotes}
               downvotes={downvotes}
             />
-            <EditQuestion
-              questionId={question.$id}
-              questionTitle={question.title}
-              authorId={question.authorId}
-            />
-            <DeleteQuestion
-              questionId={question.$id}
-              authorId={question.authorId}
-            />
+            <div className="flex flex-row md:flex-col gap-4">
+              <EditQuestion
+                questionId={question.$id}
+                questionTitle={question.title}
+                authorId={question.authorId}
+              />
+              <DeleteQuestion
+                questionId={question.$id}
+                authorId={question.authorId}
+              />
+            </div>
           </div>
           <div className="w-full overflow-auto">
-            <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-6 backdrop-blur-lg shadow-lg transition-all duration-300 hover:border-emerald-500/30 hover:bg-white/8">
+            <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-4 md:p-6 backdrop-blur-lg shadow-lg transition-all duration-300 hover:border-emerald-500/30 hover:bg-white/8">
               <MarkdownPreview
-                className="rounded-xl p-4"
+                className="rounded-xl p-2 md:p-4"
                 source={question.content}
               />
               {question.attachmentId && (
@@ -200,17 +204,17 @@ const Page = async ({
                       ) || "/placeholder.svg"
                     }
                     alt={question.title}
-                    className="mt-3 rounded-lg"
+                    className="mt-3 rounded-lg w-full"
                   />
                 </picture>
               )}
             </div>
-            <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
+            <div className="mt-3 flex flex-wrap items-center gap-2 md:gap-3 text-xs md:text-sm">
               {question.tags.map((tag: string) => (
                 <Link
                   key={tag}
                   href={`/questions?tag=${tag}`}
-                  className="inline-block rounded-lg bg-emerald-500/20 px-3 py-1 text-emerald-400 duration-200 hover:bg-emerald-500/30 transition-all"
+                  className="inline-block rounded-lg bg-emerald-500/20 px-2 md:px-3 py-1 text-emerald-400 duration-200 hover:bg-emerald-500/30 transition-all"
                 >
                   #{tag}
                 </Link>
@@ -221,20 +225,21 @@ const Page = async ({
                 <img
                   src={
                     avatars.getInitials(author.name, 36, 36) ||
+                    "/placeholder.svg" ||
                     "/placeholder.svg"
                   }
                   alt={author.name}
-                  className="rounded-lg"
+                  className="rounded-lg w-8 h-8 md:w-9 md:h-9"
                 />
               </picture>
               <div className="block leading-tight">
                 <Link
                   href={`/users/${author.$id}/${slugify(author.name)}`}
-                  className="text-emerald-400 hover:text-emerald-300 transition-colors"
+                  className="text-sm md:text-base text-emerald-400 hover:text-emerald-300 transition-colors"
                 >
                   {author.name}
                 </Link>
-                <p className="text-gray-400">
+                <p className="text-xs md:text-sm text-gray-400">
                   <strong className="text-white">
                     {author.prefs.reputation}
                   </strong>{" "}

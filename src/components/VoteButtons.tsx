@@ -4,7 +4,7 @@ import { databases } from "@/models/client/config";
 import { db, voteCollection } from "@/models/name";
 import { useAuthStore } from "@/store/Auth";
 import { cn } from "@/lib/utils";
-import { Models, Query } from "appwrite";
+import { type Models, Query } from "appwrite";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -115,7 +115,7 @@ const VoteButtons = ({
   return (
     <div
       className={cn(
-        "flex shrink-0 flex-col items-center justify-start gap-y-2",
+        "flex flex-row md:flex-col items-center justify-start gap-x-2 gap-y-1 md:gap-y-2",
         className
       )}
     >
@@ -123,7 +123,7 @@ const VoteButtons = ({
         variant="outline"
         size="icon"
         className={cn(
-          "border-emerald-500/20 hover:bg-emerald-500/10",
+          "h-8 w-8 md:h-9 md:w-9 border-emerald-500/20 hover:bg-emerald-500/10",
           votedDocument && votedDocument.voteStatus === "upvoted"
             ? "text-emerald-400 border-emerald-500"
             : "text-gray-400"
@@ -132,12 +132,14 @@ const VoteButtons = ({
       >
         <ChevronUp className="h-4 w-4" />
       </Button>
-      <span className="text-lg font-medium text-emerald-400">{voteResult}</span>
+      <span className="text-base md:text-lg font-medium text-emerald-400">
+        {voteResult}
+      </span>
       <Button
         variant="outline"
         size="icon"
         className={cn(
-          "border-emerald-500/20 hover:bg-emerald-500/10",
+          "h-8 w-8 md:h-9 md:w-9 border-emerald-500/20 hover:bg-emerald-500/10",
           votedDocument && votedDocument.voteStatus === "downvoted"
             ? "text-emerald-400 border-emerald-500"
             : "text-gray-400"

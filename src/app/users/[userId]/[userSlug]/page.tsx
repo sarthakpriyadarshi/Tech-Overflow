@@ -27,8 +27,6 @@ const Page = async ({
     ]),
   ]);
 
-  console.log("User pref reputation", user.prefs.reputation);
-
   const stats = [
     {
       title: "Reputation",
@@ -51,19 +49,19 @@ const Page = async ({
   ];
 
   return (
-    <div className="grid gap-6 md:grid-cols-3">
+    <div className="grid gap-3 md:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
       {stats.map((stat) => (
         <GradientCard
           key={stat.title}
-          className="group flex flex-col items-center justify-center py-8"
+          className="group flex flex-col items-center justify-center py-4 md:py-8"
         >
-          <div className="mb-4 rounded-full bg-emerald-500/10 p-3 text-emerald-500 transition-transform duration-300 group-hover:scale-110">
-            <stat.icon className="h-6 w-6" />
+          <div className="mb-2 md:mb-4 rounded-full bg-emerald-500/10 p-2 md:p-3 text-emerald-500 transition-transform duration-300 group-hover:scale-110">
+            <stat.icon className="h-4 w-4 md:h-6 md:w-6" />
           </div>
-          <h2 className="mb-2 text-lg font-medium text-gray-200">
+          <h2 className="mb-1 md:mb-2 text-base md:text-lg font-medium text-gray-200">
             {stat.title}
           </h2>
-          <p className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+          <p className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
             <NumberTicker value={stat.value} />
           </p>
           <div

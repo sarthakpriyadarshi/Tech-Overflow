@@ -1,6 +1,6 @@
 "use client";
 
-import { Models } from "appwrite";
+import type { Models } from "appwrite";
 import React from "react";
 import VoteButtons from "./VoteButtons";
 import { useAuthStore } from "@/store/Auth";
@@ -80,6 +80,11 @@ const Answers = ({
       const data = await response.json();
 
       if (!response.ok) throw data;
+
+      setAnswers((prev) => ({
+        total: prev.total - 1,
+        documents: prev.documents.filter((answer) => answer.$id !== answerId),
+      }));
     } catch (error: unknown) {
       if (error && typeof error === "object" && "message" in error) {
         toast.error(
@@ -92,13 +97,16 @@ const Answers = ({
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
-      <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+    <div className="space-y-4 md:space-y-6 max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
+      <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
         {answers.total} Answers
       </h2>
       {answers.documents.map((answer) => (
-        <GradientCard key={answer.$id} className="flex gap-4">
-          <div className="flex shrink-0 flex-col items-center gap-4">
+        <GradientCard
+          key={answer.$id}
+          className="flex flex-col md:flex-row gap-3 md:gap-4 p-3 md:p-4"
+        >
+          <div className="flex md:flex-col items-center md:items-start gap-3 md:gap-4 md:shrink-0">
             <VoteButtons
               type="answer"
               id={answer.$id}
@@ -109,7 +117,7 @@ const Answers = ({
               <Button
                 variant="outline"
                 size="icon"
-                className="text-red-500 border-red-500/50 hover:bg-red-500/10 hover:text-red-400"
+                className="h-8 w-8 md:h-9 md:w-9 text-red-500 border-red-500/50 hover:bg-red-500/10 hover:text-red-400"
                 onClick={() => deleteAnswer(answer.$id)}
               >
                 <Trash className="h-4 w-4" />
@@ -118,27 +126,30 @@ const Answers = ({
           </div>
           <div className="w-full overflow-auto">
             <MarkdownPreview
-              className="prose prose-invert max-w-none rounded-xl bg-black/20 p-4"
+              className="prose prose-invert max-w-none rounded-xl bg-black/20 p-3 md:p-4 prose-sm md:prose-base"
               source={answer.content}
             />
-            <div className="mt-4 flex items-center justify-end gap-2">
+            <div className="mt-3 md:mt-4 flex items-center justify-end gap-2">
               <Image
-                src={avatars.getInitials(answer.author.name, 36, 36)}
+                src={
+                  avatars.getInitials(answer.author.name, 36, 36) ||
+                  "/placeholder.svg"
+                }
                 width={36}
                 height={36}
                 alt={answer.author.name}
-                className="rounded-lg border border-emerald-500/20"
+                className="rounded-lg border border-emerald-500/20 w-7 h-7 md:w-9 md:h-9"
               />
               <div className="text-right">
                 <Link
                   href={`/users/${answer.author.$id}/${slugify(
                     answer.author.name
                   )}`}
-                  className="text-emerald-400 hover:text-emerald-300 font-medium"
+                  className="text-emerald-400 hover:text-emerald-300 font-medium text-sm md:text-base"
                 >
                   {answer.author.name}
                 </Link>
-                <p className="text-sm text-gray-400">
+                <p className="text-xs md:text-sm text-gray-400">
                   reputation:{" "}
                   <span className="text-emerald-400">
                     {answer.author.reputation}
@@ -148,18 +159,18 @@ const Answers = ({
             </div>
             <Comments
               comments={answer.comments}
-              className="mt-4"
+              className="mt-3 md:mt-4"
               type="answer"
               typeId={answer.$id}
             />
-            <div className="my-4 border-t border-emerald-500/20" />
+            <div className="my-3 md:my-4 border-t border-emerald-500/20" />
           </div>
         </GradientCard>
       ))}
-      <div className="border-t border-emerald-500/20 pt-6">
+      <div className="border-t border-emerald-500/20 pt-4 md:pt-6">
         {/* Add onSubmit only to the form element, not individual buttons */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+        <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+          <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
             Your Answer
           </h2>
           <RTE
@@ -167,7 +178,10 @@ const Answers = ({
             onChange={(value) => setNewAnswer(() => value || "")}
           />
           {/* Explicitly add type="submit" to the submit button */}
-          <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700">
+          <Button
+            type="submit"
+            className="bg-emerald-600 hover:bg-emerald-700 w-full sm:w-auto"
+          >
             Post Your Answer
           </Button>
         </form>

@@ -8,9 +8,8 @@ import {
   voteCollection,
 } from "@/models/name";
 import { databases, users } from "@/models/server/config";
-import { UserPrefs } from "@/store/Auth";
+import type { UserPrefs } from "@/store/Auth";
 import { Query } from "node-appwrite";
-import React from "react";
 
 const Page = async ({
   params,
@@ -63,18 +62,21 @@ const Page = async ({
   );
 
   return (
-    <div className="space-y-6">
-      <GradientCard hover={false} className="flex items-center justify-between">
-        <p className="text-lg text-emerald-500/80">
+    <div className="space-y-4 md:space-y-6">
+      <GradientCard
+        hover={false}
+        className="flex items-center justify-between p-3 md:p-4"
+      >
+        <p className="text-base md:text-lg text-emerald-500/80">
           {questions.total} questions
         </p>
       </GradientCard>
 
-      <div className="space-y-4">
+      <div className="space-y-3 md:space-y-4">
         {questions.documents.map((ques) => (
           <div
             key={ques.$id}
-            className="transform transition-all duration-300 hover:scale-[1.02]"
+            className="transform transition-all duration-300 hover:scale-[1.01]"
           >
             <QuestionCard ques={ques} />
           </div>

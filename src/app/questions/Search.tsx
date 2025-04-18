@@ -34,18 +34,18 @@ const Search = () => {
     <form
       onSubmit={handleSearch}
       role="search"
-      className="flex w-full flex-col sm:flex-row items-center gap-4 sm:gap-6"
+      className="flex w-full flex-col sm:flex-row items-center gap-3 sm:gap-6"
     >
       <Input
         type="text"
         placeholder="Search questions..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full sm:w-auto flex-1 bg-white/5 border border-emerald-400/30 focus:border-emerald-500 text-white placeholder:text-gray-400"
+        className="w-full sm:flex-1 bg-white/5 border border-emerald-400/30 focus:border-emerald-500 text-white placeholder:text-gray-400"
       />
       <button
         type="submit"
-        className="px-6 py-2 rounded bg-emerald-500 text-white font-semibold hover:bg-emerald-600 transition"
+        className="w-full sm:w-auto mt-2 sm:mt-0 px-4 sm:px-6 py-2 rounded bg-emerald-500 text-white font-semibold hover:bg-emerald-600 transition"
       >
         Search
       </button>

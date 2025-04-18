@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -253,23 +254,23 @@ const AskPage = ({ question }: { question?: Question }) => {
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 pt-24 pb-12">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-8 backdrop-blur-lg">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent mb-4">
+      <div className="relative z-10 container mx-auto px-4 pt-24 pb-12 rounded-xl bg-white/5 border border-emerald-500/20 p-4 md:p-8 backdrop-blur-lg">
+        <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
+          <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-4 md:p-8 backdrop-blur-lg">
+            <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent mb-2 md:mb-4">
               {question ? "Edit Your Question" : "Ask a Question"}
             </h1>
-            <p className="text-gray-400">
+            <p className="text-gray-400 text-sm md:text-base">
               {question
                 ? "Update your question details below."
                 : "Get help by asking a clear, well-formatted question."}
             </p>
           </div>
 
-          <form onSubmit={onSubmit} className="space-y-6">
+          <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
             {/* Title */}
-            <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-6 backdrop-blur-lg">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+            <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-4 md:p-6 backdrop-blur-lg">
+              <label className="block text-xs md:text-sm font-medium text-gray-300 mb-2">
                 Title
               </label>
               <Input
@@ -278,30 +279,30 @@ const AskPage = ({ question }: { question?: Question }) => {
                 placeholder="What's your question?"
                 required
                 maxLength={100}
-                className="bg-white/5 border-emerald-500/20 text-white focus:border-emerald-500/40"
+                className="bg-white/5 border-emerald-500/20 text-white focus:border-emerald-500/40 text-sm md:text-base"
               />
             </div>
 
             {/* Content */}
-            <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-6 backdrop-blur-lg">
+            <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-4 md:p-6 backdrop-blur-lg">
               <Tabs defaultValue="write" className="w-full">
                 <TabsList className="w-full bg-white/5 border-emerald-500/20">
                   <TabsTrigger
                     value="write"
-                    className="flex items-center gap-2 data-[state=active]:bg-emerald-500/20"
+                    className="flex items-center gap-1 md:gap-2 text-xs md:text-sm data-[state=active]:bg-emerald-500/20"
                   >
-                    <PenLine className="w-4 h-4" />
+                    <PenLine className="w-3 h-3 md:w-4 md:h-4" />
                     Write
                   </TabsTrigger>
                   <TabsTrigger
                     value="preview"
-                    className="flex items-center gap-2 data-[state=active]:bg-emerald-500/20"
+                    className="flex items-center gap-1 md:gap-2 text-xs md:text-sm data-[state=active]:bg-emerald-500/20"
                   >
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-3 h-3 md:w-4 md:h-4" />
                     Preview
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="write" className="mt-4">
+                <TabsContent value="write" className="mt-3 md:mt-4">
                   <div className="rounded-lg overflow-hidden border border-emerald-500/20">
                     <EditorToolbar
                       onAction={handleEditorAction}
@@ -312,17 +313,17 @@ const AskPage = ({ question }: { question?: Question }) => {
                       onChange={(e) => setContent(e.target.value)}
                       placeholder="Describe your question in detail"
                       required
-                      className="min-h-[300px] bg-white/5 border-0 text-white focus:border-emerald-500/40 rounded-none"
+                      className="min-h-[200px] md:min-h-[300px] bg-white/5 border-0 text-white focus:border-emerald-500/40 rounded-none text-sm md:text-base"
                       maxLength={10000}
                     />
                   </div>
                 </TabsContent>
-                <TabsContent value="preview" className="mt-4">
-                  <div className="min-h-[300px] p-4 rounded-lg bg-white/5 border border-emerald-500/20 prose prose-invert max-w-none">
+                <TabsContent value="preview" className="mt-3 md:mt-4">
+                  <div className="min-h-[200px] md:min-h-[300px] p-3 md:p-4 rounded-lg bg-white/5 border border-emerald-500/20 prose prose-invert prose-sm md:prose max-w-none">
                     {content ? (
                       <ReactMarkdown>{content}</ReactMarkdown>
                     ) : (
-                      <p className="text-gray-400 italic">
+                      <p className="text-gray-400 italic text-sm">
                         Nothing to preview yet...
                       </p>
                     )}
@@ -332,10 +333,10 @@ const AskPage = ({ question }: { question?: Question }) => {
             </div>
 
             {/* Tags & Attachment */}
-            <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-6 backdrop-blur-lg space-y-4">
+            <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-4 md:p-6 backdrop-blur-lg space-y-3 md:space-y-4">
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
-                  <Tags className="w-4 h-4" />
+                <label className="text-xs md:text-sm font-medium text-gray-300 mb-2 flex items-center gap-1 md:gap-2">
+                  <Tags className="w-3 h-3 md:w-4 md:h-4" />
                   Tags
                 </label>
                 <Input
@@ -343,13 +344,13 @@ const AskPage = ({ question }: { question?: Question }) => {
                   onChange={(e) => setCurrentTag(e.target.value)}
                   onKeyDown={handleAddTag}
                   placeholder="Add tags (press Enter)"
-                  className="bg-white/5 border-emerald-500/20 text-white focus:border-emerald-500/40"
+                  className="bg-white/5 border-emerald-500/20 text-white focus:border-emerald-500/40 text-sm md:text-base"
                 />
-                <div className="flex flex-wrap gap-2 mt-2">
+                <div className="flex flex-wrap gap-1 md:gap-2 mt-2">
                   {tags.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-sm"
+                      className="inline-flex items-center gap-1 px-2 md:px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs md:text-sm"
                     >
                       {tag}
                       <button
@@ -365,24 +366,24 @@ const AskPage = ({ question }: { question?: Question }) => {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2">
+                <label className="text-xs md:text-sm font-medium text-gray-300 mb-2">
                   Image Attachment
                 </label>
                 <Input
                   type="file"
                   accept="image/*"
                   onChange={(e) => setAttachment(e.target.files?.[0] || null)}
-                  className="bg-white/5 border-emerald-500/20 text-white focus:border-emerald-500/40"
+                  className="bg-white/5 border-emerald-500/20 text-white focus:border-emerald-500/40 text-sm"
                 />
               </div>
             </div>
 
             <Button
               type="submit"
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-6 rounded-lg font-medium text-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 md:py-6 rounded-lg font-medium text-base md:text-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2"
               disabled={submitting}
             >
-              <Send className="w-5 h-5" />
+              <Send className="w-4 h-4 md:w-5 md:h-5" />
               {question ? "Update Question" : "Post Your Question"}
             </Button>
           </form>

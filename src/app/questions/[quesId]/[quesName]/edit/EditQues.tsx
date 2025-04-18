@@ -15,29 +15,22 @@ const EditQues = ({ question }: { question: Models.Document }) => {
     if (question.authorId !== user?.$id) {
       router.push(`/questions/${question.$id}/${slugify(question.title)}`);
     }
-  }, []);
+  }, [question, user, router]);
 
   if (user?.$id !== question.authorId) return null;
 
   return (
-    <div className="block pb-20 pt-32">
-      <div className="container mx-auto px-4">
-        <h1 className="mb-10 mt-4 text-2xl">Edit your public question</h1>
-
-        <div className="flex flex-wrap md:flex-row-reverse">
-          <div className="w-full md:w-1/3"></div>
-          <div className="w-full md:w-2/3">
-            <QuestionForm
-              question={{
-                ...(question as Models.Document),
-                title: question.title,
-                content: question.content,
-                tags: question.tags,
-                authorId: question.authorId,
-              }}
-            />
-          </div>
-        </div>
+    <div className="min-h-screen pt-24 md:pt-32 pb-12 md:pb-20 flex flex-col items-center justify-start rounded-2xl">
+      <div className="w-full max-w-3xl px-4">
+        <QuestionForm
+          question={{
+            ...(question as Models.Document),
+            title: question.title,
+            content: question.content,
+            tags: question.tags,
+            authorId: question.authorId,
+          }}
+        />
       </div>
     </div>
   );

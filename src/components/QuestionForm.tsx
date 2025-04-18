@@ -27,7 +27,7 @@ const LabelInputContainer = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col space-y-2 overflow-hidden rounded-xl border border-white/20 bg-slate-950 p-4",
+        "relative flex w-full flex-col space-y-2 overflow-hidden border border-white/20 bg-slate-950 p-4 rounded-2xl",
         className
       )}
     >

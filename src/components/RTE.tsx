@@ -80,20 +80,20 @@ const RTE: React.FC<RTEProps> = ({ value, onChange }) => {
       <TabsList className="w-full bg-white/5 border-emerald-500/20">
         <TabsTrigger
           value="write"
-          className="flex items-center gap-2 data-[state=active]:bg-emerald-500/20"
+          className="flex items-center gap-1 md:gap-2 text-xs md:text-sm data-[state=active]:bg-emerald-500/20"
         >
-          <PenLine className="w-4 h-4" />
+          <PenLine className="w-3 h-3 md:w-4 md:h-4" />
           Write
         </TabsTrigger>
         <TabsTrigger
           value="preview"
-          className="flex items-center gap-2 data-[state=active]:bg-emerald-500/20"
+          className="flex items-center gap-1 md:gap-2 text-xs md:text-sm data-[state=active]:bg-emerald-500/20"
         >
-          <Eye className="w-4 h-4" />
+          <Eye className="w-3 h-3 md:w-4 md:h-4" />
           Preview
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="write" className="mt-4">
+      <TabsContent value="write" className="mt-2 md:mt-4">
         <div className="rounded-lg overflow-hidden border border-emerald-500/20">
           <EditorToolbar
             onAction={handleEditorAction}
@@ -103,16 +103,18 @@ const RTE: React.FC<RTEProps> = ({ value, onChange }) => {
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Write your content..."
-            className="min-h-[300px] bg-white/5 border-0 text-white focus:border-emerald-500/40 rounded-none"
+            className="min-h-[200px] md:min-h-[300px] bg-white/5 border-0 text-white focus:border-emerald-500/40 rounded-none text-sm md:text-base"
           />
         </div>
       </TabsContent>
-      <TabsContent value="preview" className="mt-4">
-        <div className="min-h-[300px] p-4 rounded-lg bg-white/5 border border-emerald-500/20 prose prose-invert max-w-none">
+      <TabsContent value="preview" className="mt-2 md:mt-4">
+        <div className="min-h-[200px] md:min-h-[300px] p-3 md:p-4 rounded-lg bg-white/5 border border-emerald-500/20 prose prose-invert max-w-none prose-sm md:prose-base">
           {value ? (
             <ReactMarkdown>{value}</ReactMarkdown>
           ) : (
-            <p className="text-gray-400 italic">Nothing to preview yet...</p>
+            <p className="text-gray-400 italic text-sm">
+              Nothing to preview yet...
+            </p>
           )}
         </div>
       </TabsContent>
@@ -127,7 +129,11 @@ export const MarkdownPreview: React.FC<{
   source: string;
   className?: string;
 }> = ({ source, className }) => (
-  <div className={className}>
+  <div
+    className={`${
+      className ?? ""
+    } prose-sm md:prose prose-invert max-w-none break-words`}
+  >
     <ReactMarkdown>{source}</ReactMarkdown>
   </div>
 );

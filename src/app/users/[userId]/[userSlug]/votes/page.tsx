@@ -12,7 +12,7 @@ import slugify from "@/utils/slugify";
 import { MessageSquare, ThumbsDown, ThumbsUp } from "lucide-react";
 import Link from "next/link";
 import { Query } from "node-appwrite";
-import React from "react";
+import type React from "react";
 
 const Page = async ({
   params,
@@ -37,7 +37,7 @@ const Page = async ({
   }) => (
     <Link
       href={href}
-      className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm transition-all duration-300 ${
+      className={`inline-flex items-center gap-1 md:gap-2 rounded-lg px-2 md:px-4 py-1 md:py-2 text-xs md:text-sm transition-all duration-300 ${
         isActive
           ? "bg-emerald-500/20 text-emerald-400"
           : "hover:bg-emerald-500/10 hover:text-emerald-400"
@@ -46,6 +46,7 @@ const Page = async ({
       {children}
     </Link>
   );
+
   const query = [
     Query.equal("votedById", (await params).userId),
     Query.orderDesc("$createdAt"),
@@ -102,13 +103,15 @@ const Page = async ({
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <GradientCard
         hover={false}
-        className="flex flex-col sm:flex-row gap-4 justify-between items-center"
+        className="flex flex-col sm:flex-row gap-3 justify-between items-center p-3 md:p-4"
       >
-        <p className="text-lg text-emerald-500/80">{votes.total} votes</p>
-        <nav className="flex gap-2">
+        <p className="text-base md:text-lg text-emerald-500/80">
+          {votes.total} votes
+        </p>
+        <nav className="flex flex-wrap gap-1 md:gap-2 justify-center">
           <VoteFilter
             href={`/users/${(await params).userId}/${
               (await params).userSlug
@@ -123,7 +126,7 @@ const Page = async ({
             }/votes?voteStatus=upvoted`}
             isActive={(await searchParams).voteStatus === "upvoted"}
           >
-            <ThumbsUp className="h-4 w-4" /> Upvotes
+            <ThumbsUp className="h-3 w-3 md:h-4 md:w-4" /> Upvotes
           </VoteFilter>
           <VoteFilter
             href={`/users/${(await params).userId}/${
@@ -131,26 +134,26 @@ const Page = async ({
             }/votes?voteStatus=downvoted`}
             isActive={(await searchParams).voteStatus === "downvoted"}
           >
-            <ThumbsDown className="h-4 w-4" /> Downvotes
+            <ThumbsDown className="h-3 w-3 md:h-4 md:w-4" /> Downvotes
           </VoteFilter>
         </nav>
       </GradientCard>
 
-      <div className="space-y-4">
+      <div className="space-y-3 md:space-y-4">
         {votes.documents.map((vote) => (
-          <GradientCard key={vote.$id} className="space-y-2">
-            <div className="flex items-center gap-4">
+          <GradientCard key={vote.$id} className="space-y-2 p-3 md:p-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 md:gap-4">
               <span
-                className={`inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm ${
+                className={`inline-flex items-center gap-1 md:gap-2 rounded-lg px-2 md:px-3 py-1 text-xs md:text-sm ${
                   vote.voteStatus === "upvoted"
                     ? "bg-emerald-500/20 text-emerald-400"
                     : "bg-red-500/20 text-red-400"
                 }`}
               >
                 {vote.voteStatus === "upvoted" ? (
-                  <ThumbsUp className="h-4 w-4" />
+                  <ThumbsUp className="h-3 w-3 md:h-4 md:w-4" />
                 ) : (
-                  <ThumbsDown className="h-4 w-4" />
+                  <ThumbsDown className="h-3 w-3 md:h-4 md:w-4" />
                 )}
                 {vote.voteStatus}
               </span>
@@ -158,13 +161,13 @@ const Page = async ({
                 href={`/questions/${vote.question.$id}/${slugify(
                   vote.question.title
                 )}`}
-                className="group flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors"
+                className="group flex items-center gap-1 md:gap-2 text-emerald-400 hover:text-emerald-300 transition-colors text-sm md:text-base line-clamp-2"
               >
-                <MessageSquare className="h-4 w-4" />
+                <MessageSquare className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
                 {vote.question.title}
               </Link>
             </div>
-            <p className="text-right text-sm text-emerald-500/60">
+            <p className="text-right text-xs md:text-sm text-emerald-500/60">
               {convertDateToRelativeTime(new Date(vote.$createdAt))}
             </p>
           </GradientCard>

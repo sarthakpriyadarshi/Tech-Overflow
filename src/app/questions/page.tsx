@@ -6,11 +6,10 @@ import {
   questionCollection,
 } from "@/models/name";
 import { Query } from "node-appwrite";
-import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import QuestionCard from "@/components/QuestionCard";
-import { UserPrefs } from "@/store/Auth";
+import type { UserPrefs } from "@/store/Auth";
 import Pagination from "@/components/Pagination";
 import Search from "./Search";
 import { PlusCircle, Sparkles } from "lucide-react";
@@ -21,7 +20,7 @@ const Page = async ({
   searchParams: Promise<{ page?: string; tag?: string; search?: string }>;
 }) => {
   const { page, tag, search } = await searchParams;
-  const pageNumber = parseInt(page || "1", 10);
+  const pageNumber = Number.parseInt(page || "1", 10);
 
   const queries = [
     Query.orderDesc("$createdAt"),
@@ -79,38 +78,38 @@ const Page = async ({
       </div>
 
       <div className="relative z-10 container mx-auto px-4 pt-24">
-        <div className="space-y-8">
+        <div className="space-y-6 md:space-y-8">
           {/* Header Section */}
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 rounded-xl bg-white/5 border border-emerald-500/20 p-8 backdrop-blur-lg">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 rounded-xl bg-white/5 border border-emerald-500/20 p-4 md:p-8 backdrop-blur-lg">
             <div className="space-y-2">
               <div className="flex items-center gap-3">
-                <Sparkles className="w-6 h-6 text-emerald-400" />
-                <h1 className="bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-3xl font-bold text-transparent">
+                <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-emerald-400" />
+                <h1 className="bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-2xl md:text-3xl font-bold text-transparent">
                   All Questions
                 </h1>
               </div>
-              <p className="text-gray-400">
+              <p className="text-sm md:text-base text-gray-400">
                 {questions.total} questions in our community
               </p>
             </div>
 
-            <Link href="/questions/ask">
-              <Button className="w-full md:w-auto relative group bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-6 rounded-lg font-medium text-lg transition-all duration-300 hover:scale-105">
-                <PlusCircle className="mr-2 h-5 w-5" />
+            <Link href="/questions/ask" className="w-full md:w-auto">
+              <Button className="w-full md:w-auto relative group bg-emerald-600 hover:bg-emerald-700 text-white px-4 md:px-6 py-4 md:py-6 rounded-lg font-medium text-base md:text-lg transition-all duration-300 hover:scale-105">
+                <PlusCircle className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 Ask a Question
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-400/20 to-emerald-600/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100" />
               </Button>
             </Link>
           </div>
-          <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-8 backdrop-blur-lg">
+          <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-4 md:p-8 backdrop-blur-lg">
             {/* Search Section */}
-            <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-8 backdrop-blur-lg">
+            <div className="rounded-xl bg-white/5 border border-emerald-500/20 p-4 md:p-8 backdrop-blur-lg">
               <Search />
             </div>
 
             {/* Questions List */}
-            <div className="space-y-6 mt-8">
-              <div className="space-y-4">
+            <div className="space-y-4 md:space-y-6 mt-6 md:mt-8">
+              <div className="space-y-3 md:space-y-4">
                 {enrichedQuestions.map((ques) => (
                   <div
                     key={ques.$id}
@@ -124,7 +123,7 @@ const Page = async ({
           </div>
 
           {/* Pagination */}
-          <div className="mt-12 flex justify-center gap-2">
+          <div className="mt-8 md:mt-12 flex justify-center gap-2">
             <Pagination total={questions.total} limit={25} />
           </div>
         </div>
