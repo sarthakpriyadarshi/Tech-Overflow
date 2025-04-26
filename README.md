@@ -8,7 +8,7 @@ This is a stackoverflow clone built with Next.js and Appwrite. It uses the Appwr
 
 Please visit the link for demo:
 
-[Tech Overflow](techoverflow.cyberol.codes)
+[Tech Overflow](https://techoverflow.devsyn.tech)
 
 ## Deployment
 
